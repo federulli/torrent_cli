@@ -2,17 +2,27 @@
 import time
 import requests
 from ctypes import *
-CDLL("/home/federico/Documentos/torrent_cli/libs/libtorrent-rasterbar.so.9.0.0")
+#CDLL("/home/federico/Documentos/torrent_cli/libs/libtorrent-rasterbar.so.9.0.0")
 import libtorrent as lt
-a = requests.get("https://www.google.com.ar")
+a = requests.get("https://thepiratebay.org/search/Arrow/0/7/0")
 ses = lt.session()
 ses.listen_on(6881, 6891)
-params={'save_path':'.'}
+
+"""
+e = lt.bdecode(open("Deadpool (2016) [1080p] [YTS.AG].torrent", 'rb').read())
+info = lt.torrent_info(e)
+
+params = { 'save_path': "H:\\pepe", \
+        'storage_mode': lt.storage_mode_t.storage_mode_sparse, \
+        'ti': info}
 
 h = ses.add_torrent(params)
-link2="magnet:?xt=urn:btih:c1465e6b7e6a8639007cc67748a37bc52ca0d035&dn=Arrow+S04E21+2016+HDTV+x264+-+TiTAN&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969"
-link ="magnet:?xt=urn:btih:017a1b71ba1351fdb02ceede39a65c3092a3e32e&dn=The.Walking.Dead.S06E16.INTERNAL.HDTV.x264-KILLERS%5Bettv%5D&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969"
+"""
+params = {'save_path': "H:\\pepe", \
+          'storage_mode': lt.storage_mode_t.storage_mode_sparse, \
+          }
 
+link = "magnet:?xt=urn:btih:d83c61ea0b60b641cf13f61bfbf8095113e9573d&dn=Arrow.S04E23.HDTV.x264-LOL%5Bettv%5D&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969"
 h = lt.add_magnet_uri(ses, link, params)
 s = h.status()
 p=0
