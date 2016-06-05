@@ -1,10 +1,13 @@
-import libtorrent as lt
+
 import time
 import requests
+from ctypes import *
+CDLL("/home/federico/Documentos/torrent_cli/libs/libtorrent-rasterbar.so.9.0.0")
+import libtorrent as lt
 a = requests.get("https://www.google.com.ar")
 ses = lt.session()
 ses.listen_on(6881, 6891)
-params={'save_path':'H:\proyecto'}
+params={'save_path':'.'}
 
 h = ses.add_torrent(params)
 link2="magnet:?xt=urn:btih:c1465e6b7e6a8639007cc67748a37bc52ca0d035&dn=Arrow+S04E21+2016+HDTV+x264+-+TiTAN&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969"

@@ -2,15 +2,16 @@ from PyQt4 import QtGui, uic
 import os
 
 headerNames = ["#", "Nombre", "Tamano", "Porcentaje", "Bajada", "Subida", "Seeds", "Peers", "Agregado", "Estado"]
-
+gui_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "ui")
+import re
 
 class MainWindow():
     def __init__(self):
-        self.__window = uic.loadUi('%s\ui\mainwindow.ui' % os.path.dirname(os.path.realpath(__file__)))
-        self.__dialog = uic.loadUi('%s\ui\magnetinput.ui' % os.path.dirname(os.path.realpath(__file__)))
+        self.__window = uic.loadUi(os.path.join(gui_path, "mainwindow.ui"))
+        self.__dialog = uic.loadUi(os.path.join(gui_path, 'magnetinput.ui'))
         self.__dialog.buttonBox.buttons()[0].clicked.connect(self.accept)
         self.__table = self.__window.torrent_table
-        self.__addMagnet = self.__window.menuBar.children()[1].actions()[0]
+        self.__addMagnet = self._MainWindow__window.menuBar.findChild(QtGui.QMenu).actions()[0]
         self.__build_columns()
         self.__build_menu()
 
@@ -25,8 +26,11 @@ class MainWindow():
         self.__dialog.show()
 
     def accept(self):
-        magent_uri = str(self.__dialog.magnetUri.toPlainText())
-        print magent_uri
+        magnet_uri = str(self.__dialog.magnetUri.toPlainText())
+        mag = re.sub(r"^magnet.*&dn=([^&]*).*", r"\1", magnet_uri)
+        import urllib
+        mag = urllib.unquote_plus(mag)
+        print mag
 
     def add_row(self, data):
         self.__table.insertRow(self.__table.rowCount())
