@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
-    <height>259</height>
+    <width>426</width>
+    <height>262</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -22,35 +25,44 @@
      <height>32</height>
     </rect>
    </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
    <property name="standardButtons">
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
-  </widget>
-  <widget class="QPlainTextEdit" name="magnetUri">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>90</y>
-     <width>331</width>
-     <height>31</height>
-    </rect>
+   <property name="centerButtons">
+    <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>50</x>
      <y>40</y>
-     <width>311</width>
-     <height>20</height>
+     <width>321</width>
+     <height>151</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Ingrese Magnet Link</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="MagnetUriLabel">
+      <property name="text">
+       <string>No se encuentra MagnetLink en el porta papeles</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="DestSelectionButton">
+      <property name="text">
+       <string>Seleccione Destino</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
