@@ -3,18 +3,30 @@ import os
 
 headerNames = ["#", "Nombre", "Tamano", "Porcentaje", "Bajada", "Subida", "Seeds", "Peers", "Agregado", "Estado"]
 
-class MainWindow():
 
+class MainWindow():
     def __init__(self):
         self.__window = uic.loadUi('%s\ui\mainwindow.ui' % os.path.dirname(os.path.realpath(__file__)))
+        self.__dialog = uic.loadUi('%s\ui\magnetinput.ui' % os.path.dirname(os.path.realpath(__file__)))
+        self.__dialog.buttonBox.buttons()[0].clicked.connect(self.accept)
         self.__table = self.__window.torrent_table
+        self.__addMagnet = self.__window.menuBar.children()[1].actions()[0]
         self.__build_columns()
-        self.update_row(0, {"progress": 60, "download_rate": 40})
+        self.__build_menu()
+
+    def __build_menu(self):
+        self.__addMagnet.triggered.connect(self.on_add_magnet)
 
     def __build_columns(self):
         self.__table.setColumnCount(8)
         self.__table.setHorizontalHeaderLabels(headerNames)
-        self.add_row({"name": "pepe"})
+
+    def on_add_magnet(self):
+        self.__dialog.show()
+
+    def accept(self):
+        magent_uri = str(self.__dialog.magnetUri.toPlainText())
+        print magent_uri
 
     def add_row(self, data):
         self.__table.insertRow(self.__table.rowCount())
