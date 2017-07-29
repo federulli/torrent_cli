@@ -1,0 +1,3 @@
+
+class DuplicatedSerieException(Exception):
+    pass

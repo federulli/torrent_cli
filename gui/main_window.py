@@ -15,6 +15,10 @@ class MainWindow:
         self.__addMagnet = self.__window.menuBar.findChild(QtGui.QMenu).actions()[0]
         self.__addMagnet.triggered.connect(self.__magnet_input_dialog.show)
         self.__build_columns()
+        self.tray = QtGui.QSystemTrayIcon(self.__window)
+        self.tray.show()
+        #from session import Session
+        self.tray.showMessage("prueba!!", "pepe")
         #self._timer = QTimer()
         #self._timer.timeout.connect(self.timer)
         #self._timer.start(2)
