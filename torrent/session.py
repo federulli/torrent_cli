@@ -61,7 +61,21 @@ class Session:
         return torrent_id
 
     def _start_downloading_previous_torrents(self):
-        pass
+        for torrent in ActiveTorrents.select().where(ActiveTorrents.status != 'FINISHED').naive():
+            if torrent.torrent_file is not None:
+                self._download_from_torrent(
+                    torrent.id,
+                    codecs.decode(torrent.torrent_file, "base64"),
+                    torrent.download_path
+                )
+            else:
+                self._download_from_magnet(
+                    torrent.id,
+                    torrent.magnet,
+                    torrent.download_path
+                )
+            if torrent.status_id == 'PAUSED':
+                self.pause(torrent.id)
 
     def _download_from_magnet(self, torrent_id, uri, destination_path):
         torrent_handler = lt.add_magnet_uri(self._session, uri, {'save_path': destination_path})
@@ -84,25 +98,42 @@ class Session:
                   'state': self._status[stats.state]}
         return status
 
+    def get_active_torrents_data(self):
+        torrents_data = []
+        for id, handler in self._torrent_handlers.iteritems():
+            torrents_data.append(
+                dict(
+                    name='',
+                    progress=handler.status().progress * 100,
+                    peers=handler.status().num_peers,
+                    seeds=handler.status().num_seeds,
+                    download_rate=handler.status().download_rate / 1000,
+                    upload_rate=handler.status().upload_rate / 1000,
+                    state=self._status[handler.status().state]
+                )
+            )
+        return torrents_data
 
-s = Session()
+
+#s = Session()
 
 import time
 #time.sleep(10)
 #magnet = 'magnet:?xt=urn:btih:d8daeb50f386f6d73566f05c11b1a207615e611b&dn=Game.of.Thrones.S07E01.1080p.WEB.h264-TBS&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969'
 #id = s.add_magnet(magnet, "H:\Rulli\proyectos\pepe")
 #s.listen_alerts()
-id = s.add_torrent('C:\Users\Federico Rulli\Downloads\Phoenix Forgotten (2017) [1080p] [YTS.AG].torrent',
-                   'H:\Rulli\proyectos\pepe')
+#id = s.add_torrent('C:\Users\Federico Rulli\Downloads\Phoenix Forgotten (2017) [1080p] [YTS.AG].torrent',
+#                   'H:\Rulli\proyectos\pepe')
 
 
 
-
+"""
 while True:
-    print s.get_stats(id)
+    print s.get_stats(1)
+    print s.get_stats(2)
     time.sleep(1)
     #s.save_resume_data()
-
+"""
 
 
 

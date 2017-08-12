@@ -44,6 +44,9 @@ class Chapters(peewee.Model):
 class TorrentStatus(peewee.Model):
     status_code = peewee.CharField(primary_key=True)
 
+    class Meta:
+        database = database
+
 
 class ActiveTorrents(peewee.Model):
     magnet = peewee.CharField(null=True, unique=True)

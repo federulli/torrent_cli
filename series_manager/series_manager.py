@@ -96,10 +96,10 @@ class SeriesManager(object):
 
 #SeriesManager().refresh_not_found()
 #SeriesManager()._update_chapter_uri("preacher", 2, 1, 'pepepe')
-"""a = SeriesManager().add_series("preacher", 'c')
+a = SeriesManager().add_series("preacher", 'c')
 print a
 b = SeriesManager().add_season(a, 2, 13)
 print b
-SeriesManager().add_chapters(b)"""
+SeriesManager().add_chapters(b)
 
 print SeriesManager().get_ready_to_download()
