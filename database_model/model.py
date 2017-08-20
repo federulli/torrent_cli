@@ -14,7 +14,7 @@ class Series(peewee.Model):
 
 
 class Seasons(peewee.Model):
-    series_id = peewee.ForeignKeyField(Series)
+    series = peewee.ForeignKeyField(Series)
     season_number = peewee.BigIntegerField()
     chapters = peewee.BigIntegerField()
 
@@ -32,7 +32,7 @@ class ChapterStatus(peewee.Model):
 
 class Chapters(peewee.Model):
     number = peewee.BigIntegerField()
-    season_id = peewee.ForeignKeyField(Seasons)
+    season = peewee.ForeignKeyField(Seasons)
     has_subtitles = peewee.BooleanField(default=False)
     status = peewee.ForeignKeyField(ChapterStatus)
     uri = peewee.CharField(null=True)

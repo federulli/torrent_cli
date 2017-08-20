@@ -29,8 +29,9 @@ class TorrentSearcher(object):
 
 """
 s = TorrentSearcher()
-a = s._search_for_serie("big bang theory", 9)
+a = s.search_for_serie("big bang theory", 9)
 a.keys().sort()
 for key in a:
-    print str(a[key])
+    print str(a[key].magnet_link)
 """
+

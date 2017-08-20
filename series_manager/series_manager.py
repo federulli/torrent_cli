@@ -16,9 +16,9 @@ class SeriesManager(object):
 
     @staticmethod
     def get_ready_to_download():
-        chapters = Chapters.select(Chapters.id, Seasons.season_number, Series.download_path, Chapters.uri).join(Seasons).join(Series).where(Chapters.status == 'READY TO DOWNLOAD').naive()
+        chapters = Chapters.select().where(Chapters.status == 'READY TO DOWNLOAD')
         return [dict(id=chapter.id,
-                     path=os.path.join(chapter.download_path, str(chapter.season_number)),
+                     path=os.path.join(chapter.season.series.download_path, str(chapter.season.season_number)),
                      uri=chapter.uri) for chapter in chapters]
 
     @staticmethod
@@ -32,11 +32,10 @@ class SeriesManager(object):
 
     @staticmethod
     def add_chapters(season_id):
-        season_serie = Seasons.select(Seasons.season_number, Seasons.chapters, Series.name).join(Series).\
-            where(Seasons.id == season_id).naive()[0]
-        chapters_uri = TorrentSearcher().search_for_serie(season_serie.name, season_serie.season_number)
+        season = Seasons.select().where(Seasons.id == season_id).first()
+        chapters_uri = TorrentSearcher().search_for_serie(season.series.name, season.season_number)
         chapter_id = Chapters.select().count()
-        for chapter_number in range(1, season_serie.chapters + 1):
+        for chapter_number in range(1, season.chapters + 1):
             torrent = chapters_uri.get(chapter_number)
             Chapters.create(
                 chapter_id=chapter_id + chapter_number,
@@ -96,10 +95,10 @@ class SeriesManager(object):
 
 #SeriesManager().refresh_not_found()
 #SeriesManager()._update_chapter_uri("preacher", 2, 1, 'pepepe')
-a = SeriesManager().add_series("preacher", 'c')
-print a
-b = SeriesManager().add_season(a, 2, 13)
-print b
-SeriesManager().add_chapters(b)
+#a = SeriesManager().add_series("preacher", 'c')
+#print a
+#b = SeriesManager().add_season(a, 2, 13)
+#print b
+#SeriesManager().add_chapters(1)
 
 print SeriesManager().get_ready_to_download()
